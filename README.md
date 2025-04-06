@@ -35,7 +35,7 @@ Aqui estão as etapas e entregas realizadas no projeto:
 
 ## 🚀 Como rodar o projeto
 
-Siga os passos descritos em [README - Criando Instância EC2](./Docker.md) e [README - Configurando Banco RDS](./README-RDS.md) para preparar sua infraestrutura e rodar o projeto localmente ou em nuvem.
+Siga os passos descritos em [README - Criando Instância EC2 e Docker](./Docker.md) e [README - Configurando Banco RDS](./Banco.md) para preparar sua infraestrutura e rodar o projeto localmente ou em nuvem.
 
 
 ## 👨‍💻 Autor
