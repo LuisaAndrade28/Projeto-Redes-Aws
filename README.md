@@ -14,13 +14,10 @@ Aqui será apresentado o diagrama da estrutura de redes do projeto, incluindo:
 - Comunicação entre frontend, backend e banco de dados
 - Regras de segurança e acesso externo
 
-> 💡 **Adicione aqui uma imagem do seu esquema de rede (ex: `.png`, `.jpg`, ou link do draw.io ou Lucidchart)**
+
+> ![image](https://github.com/user-attachments/assets/879f579d-4b7d-4a63-9109-8df0ce4d2a39)
 
 
----
-
-
----
 
 ## 📦 Entregas
 
@@ -34,14 +31,12 @@ Aqui estão as etapas e entregas realizadas no projeto:
 
 > ✅ = Concluído &nbsp;&nbsp;&nbsp;&nbsp; 🚧 = Em andamento &nbsp;&nbsp;&nbsp;&nbsp; ⏳ = Em breve
 
----
 
 
 ## 🚀 Como rodar o projeto
 
 Siga os passos descritos em [README - Criando Instância EC2](./README-EC2.md) e [README - Configurando Banco RDS](./README-RDS.md) para preparar sua infraestrutura e rodar o projeto localmente ou em nuvem.
 
----
 
 ## 👨‍💻 Autor
 
