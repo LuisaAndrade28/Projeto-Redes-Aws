@@ -175,7 +175,7 @@ CMD ["npx", "ts-node-dev", "src/server.ts"]
 
 O seguinte comando serve para executar o nosso Docker Compose
 ```
-docker-compose -f compose.yaml up --build -d
+docker-compose -f docker-compose.yml up --build -d
 ```
 
 Ele vai criar os dockers seguindo as instruções definidas no Dockerfile. Lembre-se de ir na VM e acessar seu grupo de segurança, abra a porta 3333 para que ela receba o acesso do backend.
