@@ -1,83 +1,103 @@
-# Projeto-Redes-Aws
+# ☁️ Projeto Redes AWS
 
+Este projeto tem como objetivo a criação de uma instância EC2 na AWS que será utilizada para rodar um ambiente Docker com backend e frontend acessíveis via web.
 
-# Criando a Instância
-Neste passo a passo, vamos criar uma instância que servirá como base para rodar o Docker. A instância será configurada para hospedar o projeto, permitindo que ele seja acessado via web. Vamos seguir algumas etapas essenciais, que envolvem a criação da instância e suas respectivas configurações. 
+---
 
-### Etapas para criar a instância:
+## 🚀 Criando a Instância
 
-1. **Criar uma nova instância na nuvem** (AWS).
-2. **Configurar as permissões necessárias**, como abrir portas para acesso à aplicação web.
+Neste passo a passo, vamos criar uma instância que servirá como base para rodar o Docker. A instância será configurada para hospedar o projeto, permitindo que ele seja acessado via web.
 
-Abaixo, você verá algumas imagens que ilustram as etapas descritas.
+### 🔧 Etapas para criar a instância:
 
+1. Criar uma nova instância na nuvem (AWS).
+2. Configurar as permissões necessárias (abrir portas para acesso à aplicação web).
 
-![image](https://github.com/user-attachments/assets/e5dfec1b-4880-4db9-802d-055a9e1f14d0)
+📸 Abaixo, algumas imagens ilustrando as etapas:
 
+![Etapa 1](https://github.com/user-attachments/assets/e5dfec1b-4880-4db9-802d-055a9e1f14d0)
+![Etapa 2](https://github.com/user-attachments/assets/cbd3a795-aaf9-480a-8413-631eb379fc6a)
+![Etapa 3](https://github.com/user-attachments/assets/b7575507-e874-4068-a66d-3b25b058622b)
 
-![image (1)](https://github.com/user-attachments/assets/cbd3a795-aaf9-480a-8413-631eb379fc6a)
+---
 
+## 🔐 Acessando a Instância
 
-![image (2)](https://github.com/user-attachments/assets/b7575507-e874-4068-a66d-3b25b058622b)
+Abra o **PowerShell** como administrador e navegue até o diretório onde sua chave SSH está salva:
 
-## Acessando a instância
-
-Para acessar a instância, abra o **PowerShell** como administrador no seu computador. Navegue até o diretório onde sua chave SSH está salva:
-
-Exemplo: 
-
-    cd C:\Users\pedro\Downloads
-Em seguida, execute o comando SSH para acessar a instância:
-
+```bash
+cd C:\Users\pedro\Downloads
 ```
+
+Execute o seguinte comando para acessar a instância:
+
+```bash
 ssh -i <nome-chave> ubuntu@<ip-maquina>
 ```
 
-## Instalando o Docker
+---
 
-Vamos primeiro atualizar a instância:
-```
+## 🐳 Instalando o Docker
+
+1. Atualize a instância:
+
+```bash
 sudo apt update
 ```
-Comando para baixar o Docker na instância
 
-```
+2. Instale o Docker:
+
+```bash
 sudo apt install docker.io -y
 ```
-Verifique que o Docker foi devidamente instalado:
-```
+
+3. Verifique a instalação:
+
+```bash
 docker --version
 ```
-Para que seja possível utilizar os comandos sem o `sudo` na frente vamos usar o seguinte comando, após isso é preciso sair para a alteração se tornar válida.
 
-```
+4. Para usar Docker sem `sudo`:
+
+```bash
 sudo usermod -aG docker $USER
 ```
-Após logar novamente na instãncia, vamos criar uma pasta para maior organização:
-```
+
+> ⚠️ Após isso, saia e entre novamente na instância para aplicar a mudança.
+
+5. Crie uma pasta para organização:
+
+```bash
 mkdir ~/aplicacao
 ```
-Dentro dessa pasta vamos clonar o projeto:
-```
+
+6. Clone o repositório do projeto:
+
+```bash
 git clone <link do projeto no github>
 ```
-## Criando o Docker Compose
 
-Para baixar o Docker Compose na nossa instância, execute:
+---
 
-```
+## ⚙️ Criando o Docker Compose
+
+1. Instale o Docker Compose:
+
+```bash
 sudo apt install docker-compose -y
 ```
-Agora, crie o arquivo compose.yaml:
-```
+
+2. Crie o arquivo `compose.yaml`:
+
+```bash
 touch compose.yaml
-
+nano compose.yaml
 ```
-Aqui criamos o nosso compose.yaml. Agora dentro do nosso compose.yaml vamos colocar o seguinte bloco de código. Lembrem-se, para acessar e modificar o arquivo basta dar um `nano compose.yaml`
 
-```
+3. Adicione o seguinte conteúdo:
+
+```yaml
 services:
-
   backend:
     container_name: backend
     build:
@@ -98,23 +118,22 @@ services:
 
 volumes:
   db_data:
-
 ```
 
-## Frontend Dockerfile:
+---
 
-Dentro do frontend, vamos criar o Dockerfile. 
+## 🧱 Dockerfile do Frontend
 
-Para criar o arquivo `Dockerfile`, execute:
+1. Crie o arquivo `Dockerfile`:
 
-```
+```bash
 touch Dockerfile
-```
-```
 nano Dockerfile
 ```
-E ensira o seguinte código dentro do seu Dockerfile:
-```
+
+2. Adicione o conteúdo abaixo:
+
+```dockerfile
 FROM node:22-alpine AS build
 
 WORKDIR /app
@@ -128,74 +147,78 @@ RUN npm run build
 
 FROM nginx:alpine
 
-# Copia o resultado do build para o nginx
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
-
 ```
 
-## Backend Dockerfile:
+---
 
-Dentro do backend, vamos criar o Dockerfile. 
+## 🧱 Dockerfile do Backend
 
-Para criar o arquivo `Dockerfile`, execute:
+1. Crie o arquivo `Dockerfile`:
 
-```
+```bash
 touch Dockerfile
-```
-```
 nano Dockerfile
 ```
-E ensira o seguinte código dentro do seu Dockerfile:
 
-```
+2. Adicione o conteúdo abaixo:
+
+```dockerfile
 FROM node:22-alpine
 
 WORKDIR /app
 
-# Copia os arquivos de dependência e instala tudo
 COPY package*.json ./
 RUN npm install
 
-# Copia o restante do projeto
 COPY . .
 
-# Expõe a porta do app
 EXPOSE 3333
 
-# Roda o servidor com ts-node-dev
 CMD ["npx", "ts-node-dev", "src/server.ts"]
-
 ```
 
-##Executando o Compose
+---
 
-O seguinte comando serve para executar o nosso Docker Compose
-```
+## ▶️ Executando o Compose
+
+Execute o seguinte comando para subir os containers:
+
+```bash
 docker-compose -f docker-compose.yml up --build -d
 ```
 
-Ele vai criar os dockers seguindo as instruções definidas no Dockerfile. Lembre-se de ir na VM e acessar seu grupo de segurança, abra a porta 3333 para que ela receba o acesso do backend.
-![image (3)](https://github.com/user-attachments/assets/887dfbfb-a894-413d-8c89-21666bc41d1e)
+🔓 **Importante**: Vá até o grupo de segurança da VM na AWS e abra a porta `3333` para acesso ao backend.
 
-### Atenção! 
-Toda vez que ligar a VM na AWS vai gerar um IP novo, então é preciso acessar o api.jsx no frontend para trocar o IP de acesso.
-![image (4)](https://github.com/user-attachments/assets/3cb6f425-184f-4b2c-9a4e-3ca0ea571d92)
+![Porta 3333](https://github.com/user-attachments/assets/887dfbfb-a894-413d-8c89-21666bc41d1e)
 
-Depois remova os containers criados, e reconstrua o projeto com as imagens atualizadas do Dockerfile. 
-```
+---
+
+## ⚠️ Atenção!
+
+Toda vez que a VM for reiniciada, ela receberá um novo IP.  
+Atualize o IP de acesso no arquivo `api.jsx` do frontend:
+
+![API IP](https://github.com/user-attachments/assets/3cb6f425-184f-4b2c-9a4e-3ca0ea571d92)
+
+---
+
+## ♻️ Atualizando os Containers
+
+Para reconstruir o projeto com as novas imagens:
+
+```bash
 docker-compose down
 ```
 
-```
+```bash
 docker-compose -f compose.yaml up --build -d
 ```
 
+---
 
-
-
-
-
+✌️ Projeto pronto! Agora sua aplicação está hospedada com Docker em uma instância AWS.
