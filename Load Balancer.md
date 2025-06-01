@@ -25,7 +25,7 @@ services:
   backend:
     container_name: backend
     build:
-      context: ./redes_computadores/backend
+      context: ./Projetos-Redes-Aws/backend
       dockerfile: Dockerfile
     ports:
       - "3333:3333"
@@ -33,7 +33,7 @@ services:
   frontend:
     container_name: frontend
     build:
-      context: ./redes_computadores/frontend
+      context: ./Projetos-Redes-Aws/frontend
       dockerfile: Dockerfile
     ports:
       - "80:80"
